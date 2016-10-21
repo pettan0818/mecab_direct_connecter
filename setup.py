@@ -9,7 +9,7 @@ setup(
     author = "pettan0818",
     packages = find_packages(),
     install_requires = [
-        "MeCab",
+        "mecab-python3",
         "neologdn",
         "pandas"
     ]
