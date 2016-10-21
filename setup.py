@@ -8,7 +8,7 @@ setup(
     version = __version__,
     description="Easily Mecab Wrapper",
     author = "pettan0818",
-    packages = ["mecab_direct_connecter",
+    packages = ["mecab_direct_connecter"],
     install_requires = [
         "mecab-python3",
         "neologdn",
