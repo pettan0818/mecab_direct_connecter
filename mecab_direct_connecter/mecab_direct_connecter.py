@@ -9,7 +9,7 @@ Mac等からアクセス可能なMecabバインディングを用いて、高速
 import re
 import MeCab
 import neologdn
-import stopword
+from . import stopword
 import logging
 
 # logging.basicConfig(filemode='a', filename="./logs/mecab_direct_connecter.log")
