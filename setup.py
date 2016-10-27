@@ -13,6 +13,5 @@ setup(
         "mecab-python3",
         "neologdn",
         "pandas"
-    ],
-    package_data={"mecab_direct_connecter": ["mecab_direct_connecter/stop_words.data"]}
+    ]
 )
