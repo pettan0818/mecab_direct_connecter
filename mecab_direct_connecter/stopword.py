@@ -31,14 +31,19 @@ PRE_DEFINED = ['あそこ', 'あたり', 'あちら', 'あっち', 'あと', '�
 
 ZENKAKU_NUM = ["１", "２", "３", "４", "５", "６", "７", "８", "９", "０"]
 HANKAKU_NUM = list(range(0, 100))
-
+ONE_LETTERS_UP = [chr(i) for i in range(65, 65 + 26)]
+ONE_LETTERS_DOWN = [chr(i) for i in range(97, 97 + 26)]
 
 class StopWordKiller(object):
     """Main Class of stopword removing."""
     def __init__(self, inline_def=["拝読", "の", "こと", "もの", "よう", "http://", "人", "私", "様", "ー", "一", "が", "ため", "方", "ほう", "こと", "場合",
                                    "何", "さま", "それ", "これ", "ん", "相談者", "%"]):
-        temp = inline_def + PRE_DEFINED + ZENKAKU_NUM + HANKAKU_NUM
+        temp = inline_def + PRE_DEFINED + ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + ONE_LETTERS_DOWN
         self.stop_word = list(set(temp))
+
+    def set_more_stopwords(self, add_target: list):
+        """Add Stopwords."""
+        self.stop_word = self.stop_word.extend(add_target)
 
     def killer(self, list_data):
         """Kill Stop words from list.
