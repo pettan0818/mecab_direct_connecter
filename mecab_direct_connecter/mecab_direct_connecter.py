@@ -7,10 +7,11 @@ Mac等からアクセス可能なMecabバインディングを用いて、高速
 使用例は、Mecab_Motherクラス内に記述。
 """
 import re
-import MeCab
 import neologdn
 from . import stopword
 import logging
+
+import MeCab
 
 # logging.basicConfig(filemode='a', filename="./logs/mecab_direct_connecter.log")
 
