@@ -34,10 +34,13 @@ HANKAKU_NUM = list(range(0, 100))
 ONE_LETTERS_UP = [chr(i) for i in range(65, 65 + 26)]
 ONE_LETTERS_DOWN = [chr(i) for i in range(97, 97 + 26)]
 
+
 class StopWordKiller(object):
     """Main Class of stopword removing."""
     def __init__(self, inline_def=["拝読", "の", "こと", "もの", "よう", "http://", "人", "私", "様", "ー", "一", "が", "ため", "方", "ほう", "こと", "場合",
-                                   "何", "さま", "それ", "これ", "ん", "相談者", "%"]):
+                                   "何", "さま", "それ", "これ", "ん", "相談者", "%", "さ", "mg", "少し", "WWW", "www", "html", "HTML", "お願い", "おねがい", "よろしく", "申し訳", "まだ",
+                                   "ミリ", "キロ", "センチ", "cm", "どう", "御返事", "ご自身", "位", "何日", "仮に", "まして", "初め", "すぐ", "多分", "誠に", "お世話", "回答", "よい", "お気持ち", "宜しく",
+                                   "やすい", "っぽい", "病", "症", "よく", "つまり", "今日", "明日", "昨日", "よい", "師", "ヶ月前", "とても", "…。", "cc", "現在", "旨" ,"ふと", "大丈夫", "院", "付け", "先生", "半年", "今年", "おそらく", "恐らく"]):
         temp = inline_def + PRE_DEFINED + ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + ONE_LETTERS_DOWN
         self.stop_word = list(set(temp))
 
