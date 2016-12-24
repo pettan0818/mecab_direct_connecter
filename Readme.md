@@ -3,8 +3,9 @@ This library is to call mecab lib with useful functions.
 
 # Requirements
 * neologdn
-* mecab
-
+* mecab (On system)
+* mecab-python3
+* pandas
 
 # How to install
 ```
