@@ -13,6 +13,11 @@ import logging
 
 import MeCab
 
+MECAB_LOGGER = logging.getLogger("mecab")
+_STDOUT_HANDLER = logging.StreamHandler()
+MECAB_LOGGER.addHandler(_STDOUT_HANDLER)
+MECAB_LOGGER.setLevel(logging.DEBUG)
+
 # logging.basicConfig(filemode='a', filename="./logs/mecab_direct_connecter.log")
 
 
@@ -113,7 +118,7 @@ class MecabMother(object):
             raise(RuntimeError("Runtime Place is unknown, please set your env's Mecab_dictionay path."))
 
         if self.cleanup:
-            logging.warning("Normalization and Removing stopwords is Activated...")
+            MECAB_LOGGER.warning("Normalization and Removing stopwords is Activated...")
 
     def set_text_to_parse(self, input_text):
         """
