@@ -69,7 +69,7 @@ class MecabMother(object):
     >>> clean_mecab.extracted_category_word(["名詞"])
     ['ケーキ']
     """
-    def __init__(self, mecab_dict_path='', cleanup=True):
+    def __init__(self, mecab_dict_path='', cleanup=True, additional_stopword_pos=None):
         """
         メソッドで活用するために、MeCabのTaggerを定義し、プロパティ化する。
 
@@ -188,7 +188,7 @@ class MecabMother(object):
                 extracted_word.append(word)
 
         if self.cleanup:
-            return self.stopword_killer.killer(extracted_word)
+            return self.stopword_killer.killer(extracted_word, self.additional_stopword_pos)
 
         return extracted_word
 
