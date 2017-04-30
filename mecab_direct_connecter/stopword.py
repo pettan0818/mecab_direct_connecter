@@ -44,8 +44,8 @@ ONE_LETTERS_DOWN = [chr(i) for i in range(97, 97 + 26)]
 
 def def_file_reader(def_file_pos):
     """Read stopword data which defines unneeded data per line.
-    
-    File should be represetnted as below.(No comma or spaces.
+
+    File should be represetnted as below.(No comma or spaces.)
     XXX
     YYY
     >>> def_file_reader("./tests/stopword.list")  # doctest: +ELLIPSIS
@@ -59,13 +59,13 @@ def def_file_reader(def_file_pos):
         return None
 
     cleaned_stopword_list = [i.rstrip() for i in stopword_list]
-    return [i for i in cleaned_stopword_list if not 0 == len(i)]
+    return [i for i in cleaned_stopword_list if not len(i) == 0]
 
 
 class StopWordKiller(object):
     """Main Class of stopword removing."""
-    def __init__(self, def_file=None, inline_def=None):
-        temp = inline_def + ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + ONE_LETTERS_DOWN + OFTEN_DEFINED
+    def __init__(self, def_file=None, inline_def=[]):
+        temp = inline_def + ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + ONE_LETTERS_DOWN + OFTEN_DEFINED + PRE_DEFINED
         if def_file:
             temp += def_file_reader(def_file)
 
@@ -82,6 +82,7 @@ class StopWordKiller(object):
         >>> stopworddisposal.killer(["相談", "の", "相談者さま"])
         ['相談', '相談者さま']"""
         return [i for i in list_data if i not in self.stop_word]
+
 
 if __name__ == "__main__":
     import doctest
