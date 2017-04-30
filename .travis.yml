@@ -1,8 +1,17 @@
 language: python
 python:
     - 3.6.0
+addons:
+  apt:
+    sources:
+        - ubuntu-toolchain-r-test
+    packages:
+        - gcc-4.8
+        - g++-4.8
+        - libusb-1.0-0-dev
 install:
     - pip install neologdn
     - pip install pandas
     - pip install git+https://github.com/pettan0818/mecab_direct_connecter.git -U
-script: python -m doctest *.py
+script:
+    python -m doctest *.py
