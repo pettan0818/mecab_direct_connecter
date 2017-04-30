@@ -1,4 +1,8 @@
 language: python
 python:
-- 3.6.0
+    - 3.6.0
+install:
+    - pip install neologdn
+    - pip install pandas
+    - pip install git+https://github.com/pettan0818/mecab_direct_connecter.git -U
 script: python -m doctest *.py
