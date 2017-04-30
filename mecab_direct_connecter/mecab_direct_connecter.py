@@ -79,7 +79,8 @@ class MecabMother(object):
 
         # cleanup option is...?
         self.cleanup = cleanup
-        self.stopword_killer = stopword.StopWordKiller()
+        self.additional_stopword_pos = additional_stopword_pos
+        self.stopword_killer = stopword.StopWordKiller(def_file=self.additional_stopword_pos)
 
         # クラス内共有変数
         # 解析対象のテキスト
@@ -131,7 +132,7 @@ class MecabMother(object):
             self.text = neologdn.normalize(self.text)
 
         # カンマとタブで文字列を区切る正規表現
-        splitter = re.compile(",|\t")
+        splitter = re.compile("[,\t]")
 
         # Mecabパース執行
         self.result = self.parser.parse(self.text)
@@ -188,7 +189,7 @@ class MecabMother(object):
                 extracted_word.append(word)
 
         if self.cleanup:
-            return self.stopword_killer.killer(extracted_word, self.additional_stopword_pos)
+            return self.stopword_killer.killer(extracted_word)
 
         return extracted_word
 
