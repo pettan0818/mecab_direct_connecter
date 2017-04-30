@@ -29,19 +29,46 @@ PRE_DEFINED = ['あそこ', 'あたり', 'あちら', 'あっち', 'あと', '�
                '関係', '近く', '方法', '我々', '違い', '多く', '扱い', '新た', 'その後', '半ば', '結局', '様々', '以前', '以後', '以降',
                '未満', '以上', '以下', '幾つ', '毎日', '自体', '向こう', '何人', '手段', '同じ', '感じ']
 
+OFTEN_DEFINED = ["拝読", "の", "こと", "もの", "よう", "http://", "人", "私", "様", "ー", "一", "が", "ため", "方", "ほう", "こと", "場合",
+                 "何", "さま", "それ", "これ", "ん", "相談者", "%", "さ", "mg", "少し", "WWW", "www", "html", "HTML", "お願い", "おねがい",
+                 "よろしく", "申し訳", "まだ", "ミリ", "キロ", "センチ", "cm", "どう", "御返事", "ご自身", "位", "何日", "仮に", "まして",
+                 "初め", "すぐ", "多分", "誠に", "お世話", "回答", "よい", "お気持ち", "宜しく", "やすい", "っぽい", "病", "症", "よく", "つまり",
+                 "今日", "明日", "昨日", "よい", "師", "ヶ月前", "とても", "…。", "cc", "現在", "旨", "ふと", "大丈夫", "院", "付け", "先生", "半年",
+                 "今年", "おそらく", "恐らく"]
+
 ZENKAKU_NUM = ["１", "２", "３", "４", "５", "６", "７", "８", "９", "０"]
 HANKAKU_NUM = list(range(0, 100))
 ONE_LETTERS_UP = [chr(i) for i in range(65, 65 + 26)]
 ONE_LETTERS_DOWN = [chr(i) for i in range(97, 97 + 26)]
 
 
+def def_file_reader(def_file_pos):
+    """Read stopword data which defines unneeded data per line.
+    
+    File should be represetnted as below.(No comma or spaces.
+    XXX
+    YYY
+    >>> def_file_reader("./tests/stopword.list")  # doctest: +ELLIPSIS
+    [...]
+    """
+    try:
+        with open(def_file_pos) as con:
+            stopword_list = con.readlines()  # type: list
+
+    except FileNotFoundError:
+        return None
+
+    cleaned_stopword_list = [i.rstrip() for i in stopword_list]
+    return [i for i in cleaned_stopword_list if not 0 == len(i)]
+
+
 class StopWordKiller(object):
     """Main Class of stopword removing."""
-    def __init__(self, inline_def=["拝読", "の", "こと", "もの", "よう", "http://", "人", "私", "様", "ー", "一", "が", "ため", "方", "ほう", "こと", "場合",
-                                   "何", "さま", "それ", "これ", "ん", "相談者", "%", "さ", "mg", "少し", "WWW", "www", "html", "HTML", "お願い", "おねがい", "よろしく", "申し訳", "まだ",
-                                   "ミリ", "キロ", "センチ", "cm", "どう", "御返事", "ご自身", "位", "何日", "仮に", "まして", "初め", "すぐ", "多分", "誠に", "お世話", "回答", "よい", "お気持ち", "宜しく",
-                                   "やすい", "っぽい", "病", "症", "よく", "つまり", "今日", "明日", "昨日", "よい", "師", "ヶ月前", "とても", "…。", "cc", "現在", "旨" ,"ふと", "大丈夫", "院", "付け", "先生", "半年", "今年", "おそらく", "恐らく"]):
-        temp = inline_def + PRE_DEFINED + ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + ONE_LETTERS_DOWN
+    def __init__(self, def_file=None, inline_def=None):
+        temp = inline_def + ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + ONE_LETTERS_DOWN + OFTEN_DEFINED
+        if def_file:
+            temp += def_file_reader(def_file)
+
         self.stop_word = list(set(temp))
 
     def set_more_stopwords(self, add_target: list):
