@@ -19,4 +19,5 @@ install:
     - pip install pandas
     - pip install mecab-python3
 script:
-    python -m doctest *.py
+    python -m doctest ./mecab_direct_connecter/stopword.py
+    python -m doctest ./mecab_direct_connecter/mecab_direct_connecter.py
