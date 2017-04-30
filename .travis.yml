@@ -10,9 +10,13 @@ addons:
     packages:
         - gcc-4.8
         - g++-4.8
-        - libusb-1.0-0-dev
+        - mecab
+        - libmecab-dev
+        - mecab-ipadic
+        - mecab-ipadic-utf8
 install:
     - pip install neologdn
     - pip install pandas
+    - pip install mecab-python3
 script:
     python -m doctest *.py
