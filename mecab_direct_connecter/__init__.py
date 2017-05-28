@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mecab_direct_connecter.mecab_direct_connecter import *
+# from mecab_direct_connecter.mecab_direct_connecter import *
 
 __all__ = ["MecabMother"]
 
