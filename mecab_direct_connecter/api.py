@@ -18,11 +18,11 @@ import logging
 import neologdn
 import MeCab
 
-try:
+try:  # for importing in library scenario.
     from .morphing import MecabMother
     from .stopword import StopWordKiller
     from .waving import waving_words_filter
-except ImportError:
+except ImportError:  # for importing test or lib folder scenario.
     from morphing import MecabMother
     from stopword import StopWordKiller
     from waving import waving_words_filter
