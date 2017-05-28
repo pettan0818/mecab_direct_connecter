@@ -57,9 +57,6 @@ class MecabMother(object):
         """
         self.text = str(input_text)
 
-        if self.cleanup is True:
-            self.text = neologdn.normalize(self.text)
-
         # カンマとタブで文字列を区切る正規表現
         splitter = re.compile("[,\t]")
 
@@ -90,12 +87,8 @@ class MecabMother(object):
         """
         ジェネレータ(指定品詞で単語を抽出)
         """
-        if self.cleanup:
-            self.__unknown_word_buster_by_parts()
-            self.__unknown_word_buster_by_readings()
-        category = list(category)
-        if isinstance(category, list):
-            TypeError("extracted_category_word needs list type arg.")
+        if category is None:
+            category = list(set(self.parts))
         # 結果を格納するリスト
         extracted_word = []
         # 指定された品詞を抽出する作業
@@ -103,19 +96,14 @@ class MecabMother(object):
             if self.parts[i] in category:
                 extracted_word.append(word)
 
-        if self.cleanup:
-            return self.stopword_killer.killer(extracted_word)
-
         return extracted_word
 
     def extract_category_originalshape(self, category):
         """
         ジェネレータ(指定品詞で単語を抽出)
         """
-        if self.cleanup:
-            self.__unknown_word_buster_by_parts()
-            self.__unknown_word_buster_by_readings()
-        category = list(category)
+        if category is None:
+            category = list(set(self.parts))
         # 結果を格納するリスト
         extracted_word = []
         # 指定された品詞を抽出する作業
@@ -123,11 +111,9 @@ class MecabMother(object):
             if self.parts[i] in category:
                 extracted_word.append(word)
 
-        if self.cleanup:
-            return self.stopword_killer.killer(extracted_word)
         return extracted_word
 
-    def __unknown_word_buster_by_readings(self):
+    def unknown_word_buster_by_readings(self):
         """
         未知語(読みが不明な単語を指す)の除去
         """
@@ -143,7 +129,7 @@ class MecabMother(object):
             del self.readings[i]
             del self.pronunciations[i]
 
-    def __unknown_word_buster_by_parts(self):
+    def unknown_word_buster_by_parts(self):
         """
         未知語であるとMecabに判断された単語を除去する
         """
