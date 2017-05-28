@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from mecab_direct_connecter.mecab_direct_connecter import *
+from .api import setup, morph
 
-__all__ = ["MecabMother"]
+__all__ = ["morphing", "stopword", "waving"]
 
 __author__ = "pettan0818"
-__version__ = "0.1.9"
+__version__ = "0.2.0"
