@@ -18,4 +18,5 @@ install:
     - pip install git+https://github.com/pettan0818/mecab_direct_connecter
 script:
     - python -m doctest ./mecab_direct_connecter/stopword.py
-    - python -m doctest ./mecab_direct_connecter/mecab_direct_connecter.py
+    - python -m doctest ./mecab_direct_connecter/api.py
+    - python -m doctest ./mecab_direct_connecter/morphing.py
