@@ -12,7 +12,7 @@ import logging
 import neologdn
 import MeCab
 
-from . import StopWordKiller
+from .stopword import StopWordKiller
 
 MECAB_LOGGER = logging.getLogger("mecab")
 _STDOUT_HANDLER = logging.StreamHandler()
