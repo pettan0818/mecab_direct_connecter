@@ -179,24 +179,6 @@ class MecabMother(object):
             del self.pronunciations[i]
 
 
-def checkdefaultencoding():
-    """
-    Python環境がUTF-8をデフォルトエンコーディングとしているかをチェックする。
-
-    site-packages/sitecustomize.pyに以下を記入
-
-    import sys
-    sys.setfdefaultencoding('utf-8')
-
-    参考サイト:http://qiita.com/puriketu99/items/55e04332881d7b679b00
-    >>> checkdefaultencoding()
-
-    """
-    import sys
-    if sys.getdefaultencoding() == 'ascii':
-        raise UnicodeError("Please set sys.setfdefaultencoding('utf-8') in site-packages/sitecustomize.py")
-
-
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
