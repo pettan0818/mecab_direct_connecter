@@ -8,6 +8,12 @@ Usage:
 >>> tester.killer(["あそこ", "ケーキ屋", "美味しい", "みたい"])
 ['ケーキ屋', '美味しい']
 """
+import logging
+
+MECAB_LOGGER = logging.getLogger("stopword")
+_STDOUT_HANDLER = logging.StreamHandler()
+MECAB_LOGGER.addHandler(_STDOUT_HANDLER)
+MECAB_LOGGER.setLevel(logging.DEBUG)
 
 PRE_DEFINED = ['あそこ', 'あたり', 'あちら', 'あっち', 'あと', 'あな', 'あなた', 'あれ', 'いくつ', 'いつ', 'いま', 'いや', 'いろいろ',
                'うち', 'おおまか', 'おまえ', 'おれ', 'がい', 'かく', 'かたち', 'かやの', 'から', 'がら', 'きた', 'くせ', 'ここ', 'こっち',
@@ -51,12 +57,14 @@ def def_file_reader(def_file_pos):
     >>> def_file_reader("./tests/stopword.list")  # doctest: +SKIP
     [...]
     """
+    if def_file_pos is None:
+        return None
     try:
         with open(def_file_pos) as con:
             stopword_list = con.readlines()  # type: list
 
     except FileNotFoundError:
-        print("def_file pos is invailed.")
+        MECAB_LOGGER.warning("def_file pos is invailed.")
         return None
 
     cleaned_stopword_list = [i.rstrip() for i in stopword_list]
@@ -65,10 +73,14 @@ def def_file_reader(def_file_pos):
 
 class StopWordKiller(object):
     """Main Class of stopword removing."""
-    def __init__(self, def_file=None, inline_def=[]):
-        temp = inline_def + ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + ONE_LETTERS_DOWN + OFTEN_DEFINED + PRE_DEFINED
-        if def_file:
-            temp += def_file_reader(def_file)
+    def __init__(self, def_file=None, inline_def=None):
+        additional_word = def_file_reader(def_file)
+
+        temp = ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + ONE_LETTERS_DOWN + OFTEN_DEFINED + PRE_DEFINED
+        if inline_def is not None:
+            temp += inline_def
+        if additional_word is not None:
+            temp += additional_word
 
         self.stop_word = list(set(temp))
 
