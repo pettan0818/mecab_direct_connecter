@@ -10,7 +10,7 @@ import re
 import logging
 
 import neologdn
-import MeCab 
+import MeCab
 
 from . import stopword
 
