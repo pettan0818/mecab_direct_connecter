@@ -7,11 +7,12 @@ Mac等からアクセス可能なMecabバインディングを用いて、高速
 使用例は、Mecab_Motherクラス内に記述。
 """
 import re
-import neologdn
-from . import stopword
 import logging
 
-import MeCab
+import neologdn
+import MeCab 
+
+from . import stopword
 
 MECAB_LOGGER = logging.getLogger("mecab")
 _STDOUT_HANDLER = logging.StreamHandler()
@@ -116,7 +117,7 @@ class MecabMother(object):
             except RuntimeError:
                 self.parser = None
         if self.parser is None:
-            raise(RuntimeError("Runtime Place is unknown, please set your env's Mecab_dictionay path."))
+            raise RuntimeError("Runtime Place is unknown, please set your env's Mecab_dictionay path.")
 
         if self.cleanup:
             MECAB_LOGGER.warning("Normalization and Removing stopwords is Activated...")
