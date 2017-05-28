@@ -20,6 +20,7 @@ import MeCab
 
 from morphing import MecabMother
 from stopword import StopWordKiller
+from waving import waving_words_filter
 
 MECAB_LOGGER = logging.getLogger("api")
 _STDOUT_HANDLER = logging.StreamHandler()
@@ -133,7 +134,7 @@ def morph(text: str, extract_parts=None, setting=None, path_setting=None):
     """Do Natural Language Analysis obeying setting tuple.
 
     # Setting up options on default.
-    >>> morph("私はおなかが減っていますよ")
+    >>> morph("私はおなかが減っていますよ", path_setting=None)
     ['は', 'おなか', '減る', 'て', 'いる', 'ます', 'よ']
     >>> setting = setup(mecab_method="original", cleanup=True, normalization=True, stopword=False, waving=False)
     >>> morph("私はおなかが減っていますよ", setting=setting)
@@ -143,6 +144,12 @@ def morph(text: str, extract_parts=None, setting=None, path_setting=None):
     >>> setting = setup(mecab_method="word", cleanup=False, normalization=True, stopword=False, waving=False)
     >>> morph("私はおなかが減っていますよ", setting=setting)
     ['私', 'は', 'おなか', 'が', '減る', 'て', 'いる', 'ます', 'よ']
+    >>> setting = setup(mecab_method="word", cleanup=True, normalization=True, stopword=True, waving=True)
+    >>> path = setup_path(None, None, "./waving_dic.dic")
+    >>> morph("私はおなかが減っていますよ", setting=setting, path_setting=path)
+    ['は', '脇腹', '減る', 'て', 'いる', '鱒', 'よ']
+    >>> morph("私はおなかが減っていますよ", extract_parts=["名詞"], setting=setting, path_setting=path)
+    ['脇腹']
     """
     # argument parsing.
     if setting is None:
@@ -178,8 +185,8 @@ def morph(text: str, extract_parts=None, setting=None, path_setting=None):
         killer = StopWordKiller(def_file=path_setting.stopword_dic)
         result = killer.killer(result)
 
-    # if setting.waving:
-    #     waving_word_killer
+    if setting.waving:
+        result = waving_words_filter(path_setting.waving_dic, result)
 
     return result
 
