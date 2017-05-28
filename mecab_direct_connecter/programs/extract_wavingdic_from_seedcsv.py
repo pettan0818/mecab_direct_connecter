@@ -56,7 +56,7 @@ def waving_dic_maker(record_list: list):
 
 def dumper(target_data: Any, output_pickle_name: str):
     """dumping target_data."""
-    with open(output_pickle_name, 'w') as con:
+    with open(output_pickle_name, 'wb') as con:
         pickle.dump(target_data, con)
 
 
