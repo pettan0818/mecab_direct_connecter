@@ -48,7 +48,7 @@ def def_file_reader(def_file_pos):
     File should be represetnted as below.(No comma or spaces.)
     XXX
     YYY
-    >>> def_file_reader("./tests/stopword.list")  # doctest: +ELLIPSIS
+    >>> def_file_reader("./tests/stopword.list")  # doctest: +SKIP
     [...]
     """
     try:

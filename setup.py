@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from setuptools import setup
+from setuptools import setup, find_packages
 from mecab_direct_connecter import __version__
 
 setup(
@@ -8,7 +8,7 @@ setup(
     version=__version__,
     description="Easily Mecab Wrapper",
     author="pettan0818",
-    packages=["mecab_direct_connecter"],
+    packages=find_packages(),
     install_requires=[
         "mecab-python3",
         "neologdn",
