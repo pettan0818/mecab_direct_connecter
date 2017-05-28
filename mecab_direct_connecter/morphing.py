@@ -15,80 +15,21 @@
 import re
 import logging
 
-import neologdn
 import MeCab
 
-from .stopword import StopWordKiller
-
-MECAB_LOGGER = logging.getLogger("mecab")
+MECAB_LOGGER = logging.getLogger("morphing")
 _STDOUT_HANDLER = logging.StreamHandler()
 MECAB_LOGGER.addHandler(_STDOUT_HANDLER)
 MECAB_LOGGER.setLevel(logging.DEBUG)
 
-# logging.basicConfig(filemode='a', filename="./logs/mecab_direct_connecter.log")
-
 
 class MecabMother(object):
-    """
-    >>> mecab_proc = MecabMother(cleanup=False)
-
-    # Mecab_Motherのプロパティtextに解析対象の文字列を登録
-    >>> mecab_proc.set_text_to_parse("基礎,講座")
-
-    >>> mecab_proc.extracted_category_word(["名詞"])
-    ['\u57fa\u790e', '\u8b1b\u5ea7']
-
-    >>> mecab_proc.set_text_to_parse("単体テストができる(????)")
-
-    # 単語リストと品詞リストのジェネレータを作成
-    # >>> words_gen = mecab_proc.word_generator()
-
-    # クラス内プロパティそのものから未知語を削除する。
-    # >>> mecab_proc.__unknown_word_buster_by_parts()
-
-    # ユニコード型の単語が入ったリストが返ってくる
-    # >>> print(next(words_gen))
-    ['\u5358\u4f53\u30c6\u30b9\u30c8', '\u304c', '\u3067\u304d\u308b']
-
-    # ユニコード型の品詞が入ったリストが返ってくる
-    # >>> print(next(words_gen))
-    ['\u540d\u8a5e', '\u52a9\u8a5e', '\u52d5\u8a5e']
-
-    # 読みを取ってくる。もしも、読みが解析不能ならもう未知語として扱う。
-    # >>> print(next(words_gen))
-    ['\u30bf\u30f3\u30bf\u30a4\u30c6\u30b9\u30c8', '\u30ac', '\u30c7\u30ad\u30eb']
-
-    # 原形を出力
-    # >>> print(next(words_gen))
-    ['\u5358\u4f53\u30c6\u30b9\u30c8', '\u304c', '\u3067\u304d\u308b']
-
-    # 名詞の抽出
-    >>> mecab_proc.extracted_category_word(["名詞"])
-    ['\u5358\u4f53\u30c6\u30b9\u30c8']
-
-    # 動詞の抽出
-    >>> mecab_proc.extracted_category_word(["動詞"])
-    ['\u3067\u304d\u308b']
-
-    # Cleanup対応テスト
-    >>> clean_mecab = MecabMother(cleanup=True)
-    >>> clean_mecab.set_text_to_parse("あそこのケーキ屋は美味しい感じ")
-    >>> clean_mecab.extracted_category_word(["名詞"])
-    ['ケーキ']
-    """
-    def __init__(self, mecab_dict_path='', cleanup=True, additional_stopword_pos=None):
+    """Run mecab process including data."""
+    def __init__(self, path_setting):
         """
         メソッドで活用するために、MeCabのTaggerを定義し、プロパティ化する。
 
         """
-        # デフォルトエンコーディングのチェック
-        checkdefaultencoding()
-
-        # cleanup option is...?
-        self.cleanup = cleanup
-        self.additional_stopword_pos = additional_stopword_pos
-        self.stopword_killer = StopWordKiller(def_file=self.additional_stopword_pos)
-
         # クラス内共有変数
         # 解析対象のテキスト
         self.text = []
@@ -163,20 +104,6 @@ class MecabMother(object):
         self.original_shape = [x[7] for x in self.result]
         self.readings = [x[8] for x in self.result]
         self.pronunciations = [x[9] for x in self.result]
-
-    # def word_generator(self):
-    #     """
-    #     ジェネレータ(形態素解析済み単語リスト・品詞リスト)
-    #     """
-    #     logging.warning("This method won't return cleanup result.")
-    #     # 単語リスト
-    #     yield self.words
-    #     # 品詞リスト
-    #     yield self.parts
-    #     # 読みリスト
-    #     yield self.pronunciations
-    #     # 単語の原形リスト
-    #     yield self.original_shape
 
     def extracted_category_word(self, category):
         """
