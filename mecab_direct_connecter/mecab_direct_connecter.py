@@ -13,7 +13,7 @@ import neologdn
 import MeCab
 
 import mecab_direct_connecter
-from mecab_direct_connecter import stopword
+from mecab_direct_connecter.stopword import StopWordKiller
 
 MECAB_LOGGER = logging.getLogger("mecab")
 _STDOUT_HANDLER = logging.StreamHandler()
