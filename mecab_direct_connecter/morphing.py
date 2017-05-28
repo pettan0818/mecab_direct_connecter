@@ -48,26 +48,7 @@ class MecabMother(object):
         self.readings = []
         self.pronunciations = []
 
-        # Mecab Setup
-        # New Words Dictionary Implemented.
-        dict_path = [
-            "-d /usr/local/Cellar/mecab/0.996/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
-            "-d /usr/lib64/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
-            "-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
-            "-d /usr/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
-            "-d {0} -x 未知語,*,*,*,*,*,*,*,* --eos-format=".format(mecab_dict_path),
-            "-x 未知語,*,*,*,*,*,*,*,* --eos-format="]
-        for path in dict_path:
-            try:
-                self.parser = MeCab.Tagger(path)
-                break
-            except RuntimeError:
-                self.parser = None
-        if self.parser is None:
-            raise RuntimeError("Runtime Place is unknown, please set your env's Mecab_dictionay path.")
-
-        if self.cleanup:
-            MECAB_LOGGER.warning("Normalization and Removing stopwords is Activated...")
+        self.parser = MeCab.Tagger(path_setting.mecab_arg)
 
     def set_text_to_parse(self, input_text):
         """
