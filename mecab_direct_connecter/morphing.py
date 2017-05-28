@@ -81,7 +81,7 @@ class MecabMother(object):
         # cleanup option is...?
         self.cleanup = cleanup
         self.additional_stopword_pos = additional_stopword_pos
-        self.stopword_killer = stopword.StopWordKiller(def_file=self.additional_stopword_pos)
+        self.stopword_killer = StopWordKiller(def_file=self.additional_stopword_pos)
 
         # クラス内共有変数
         # 解析対象のテキスト
