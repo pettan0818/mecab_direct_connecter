@@ -15,9 +15,7 @@ addons:
         - mecab-ipadic
         - mecab-ipadic-utf8
 install:
-    - pip install neologdn
-    - pip install pandas
-    - pip install mecab-python3
+    - pip install git+https://github.com/pettan0818/mecab_direct_connecter
 script:
     - python -m doctest ./mecab_direct_connecter/stopword.py
     - python -m doctest ./mecab_direct_connecter/mecab_direct_connecter.py
