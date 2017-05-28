@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
-# !/usr/local/bin/python
-# vim: set fileencoding=utf-8:
+# !/usr/bin/env python
+# vim: set fileencoding=utf-8 :
 
 """
-Mac等からアクセス可能なMecabバインディングを用いて、高速な形態素解析環境を提供します。
-使用例は、Mecab_Motherクラス内に記述。
+#
+# Author:   Noname
+# URL:      https://github.com/pettan0818
+# License:  MIT License
+# Created: 日  5/28 13:24:48 2017
+
+# Usage
+#
 """
 import re
 import logging
@@ -12,7 +18,7 @@ import logging
 import neologdn
 import MeCab
 
-from . import stopword
+from .stopword import StopWordKiller
 
 MECAB_LOGGER = logging.getLogger("mecab")
 _STDOUT_HANDLER = logging.StreamHandler()
@@ -81,7 +87,7 @@ class MecabMother(object):
         # cleanup option is...?
         self.cleanup = cleanup
         self.additional_stopword_pos = additional_stopword_pos
-        self.stopword_killer = stopword.StopWordKiller(def_file=self.additional_stopword_pos)
+        self.stopword_killer = StopWordKiller(def_file=self.additional_stopword_pos)
 
         # クラス内共有変数
         # 解析対象のテキスト
@@ -266,6 +272,4 @@ def checkdefaultencoding():
 
 if __name__ == '__main__':
     import doctest
-
-    # 単体テスト執行
-    doctest.testmod(verbose=True)
+    doctest.testmod()
