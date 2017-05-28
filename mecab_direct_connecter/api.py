@@ -18,9 +18,9 @@ import logging
 import neologdn
 import MeCab
 
-from morphing import MecabMother
-from stopword import StopWordKiller
-from waving import waving_words_filter
+from .morphing import MecabMother
+from .stopword import StopWordKiller
+from .waving import waving_words_filter
 
 MECAB_LOGGER = logging.getLogger("api")
 _STDOUT_HANDLER = logging.StreamHandler()
