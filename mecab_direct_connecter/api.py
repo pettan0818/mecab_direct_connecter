@@ -23,9 +23,9 @@ try:  # library scenario, __init__ will import requried libs.
     TEMP_TESTER = MecabMother()  # ASAP GC
     del TEMP_TESTER
 except NameError:  # for importing test or lib folder scenario.
-    from .morphing import MecabMother
-    from .stopword import StopWordKiller
-    from .waving import waving_words_filter
+    from morphing import MecabMother
+    from stopword import StopWordKiller
+    from waving import waving_words_filter
 
 
 MECAB_LOGGER = logging.getLogger("api")
