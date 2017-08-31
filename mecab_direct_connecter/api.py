@@ -52,7 +52,8 @@ def setup(mecab_method=None, cleanup=None, normalization=None, stopword=None, wa
     * stopword processing.
     * waving word processing.
     """
-    setting = namedtuple("settings", ["mecab_method", "cleanup", "normalization", "stopword", "waving"])
+    setting = namedtuple(
+        "settings", ["mecab_method", "cleanup", "normalization", "stopword", "waving"])
 
     if mecab_method is None:
         setting.mecab_method = "original"
@@ -60,7 +61,8 @@ def setup(mecab_method=None, cleanup=None, normalization=None, stopword=None, wa
         setting.mecab_method = mecab_method
 
     if setting.mecab_method in ["original", "word"]:
-        MECAB_LOGGER.warning("Plaese sepcify mecab parsing method by original or word, on this time setted up for original.")
+        MECAB_LOGGER.debug(
+            "Plaese sepcify mecab parsing method by original or word, on this time setted up for original.")
         setting.mecab_method = "original"
     MECAB_LOGGER.info("mecab processing method: %s", mecab_method)
 
@@ -109,10 +111,12 @@ def setup_path(mecab_dict_path=None, stopword_dic_path=None, waving_dic_path=Non
 
         return True
 
-    path_setting = namedtuple("path", ["mecab_arg", "stopword_dic", "waving_dic"])
+    path_setting = namedtuple(
+        "path", ["mecab_arg", "stopword_dic", "waving_dic"])
 
     if mecab_dict_path:  # When mecab Path is given.
-        mecab_arg = "-d {0} -x 未知語,*,*,*,*,*,*,*,* --eos-format=".format(mecab_dict_path)
+        mecab_arg = "-d {0} -x 未知語,*,*,*,*,*,*,*,* --eos-format=".format(
+            mecab_dict_path)
         if not check_dict_availability(mecab_arg):
             path_setting.mecab_arg = mecab_arg
     else:  # path is not given.
