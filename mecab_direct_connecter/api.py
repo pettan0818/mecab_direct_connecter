@@ -85,7 +85,7 @@ def setup(mecab_method=None, cleanup=None, normalization=None, stopword=None, wa
     MECAB_LOGGER.info("stopword filtering is: %s", setting.stopword)
 
     if waving is None:
-        setting.waving = True
+        setting.waving = False
     else:
         setting.waving = waving
     MECAB_LOGGER.info("waving word filetering is: %s", setting.waving)
