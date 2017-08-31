@@ -12,13 +12,13 @@
 # Usage
 #
 """
-from collections import namedtuple
 import logging
+from collections import namedtuple
 
-import neologdn
 import MeCab
 
-try:  # for importing in library scenario.
+import neologdn
+
     from .morphing import MecabMother
     from .stopword import StopWordKiller
     from .waving import waving_words_filter
