@@ -64,7 +64,7 @@ def def_file_reader(def_file_pos):
             stopword_list = con.readlines()  # type: list
 
     except FileNotFoundError:
-        MECAB_LOGGER.warning("def_file pos is invailed.")
+        MECAB_LOGGER.info("[stop_word] def_file pos is invailed.")
         return None
 
     cleaned_stopword_list = [i.rstrip() for i in stopword_list]
