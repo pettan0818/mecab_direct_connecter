@@ -26,16 +26,12 @@ except NameError:  # for importing test or lib folder scenario.
     from .morphing import MecabMother
     from .stopword import StopWordKiller
     from .waving import waving_words_filter
-except ImportError:  # for importing test or lib folder scenario.
-    from morphing import MecabMother
-    from stopword import StopWordKiller
-    from waving import waving_words_filter
 
 
 MECAB_LOGGER = logging.getLogger("api")
 _STDOUT_HANDLER = logging.StreamHandler()
 MECAB_LOGGER.addHandler(_STDOUT_HANDLER)
-MECAB_LOGGER.setLevel(logging.DEBUG)
+MECAB_LOGGER.setLevel(logging.WARNING)
 
 DEFAULT_DICT_PATH = [
     "-d /usr/local/Cellar/mecab/0.996/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
