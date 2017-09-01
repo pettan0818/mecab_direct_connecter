@@ -14,6 +14,7 @@
 """
 import logging
 from collections import namedtuple
+from pprint import pprint
 
 import MeCab
 
