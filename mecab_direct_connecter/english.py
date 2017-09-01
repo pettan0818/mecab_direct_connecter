@@ -12,6 +12,15 @@
 # Usage
 #
 """
+from nltk.tokenize import \
+    ToktokTokenizer  # faster and more accuracy tokenizer.
+
+TOKENIZER = ToktokTokenizer().tokenize
+
+
+def english_tokenzier(text: str):
+    """return english tokenized list."""
+    return TOKENIZER(text)
 
 
 if __name__ == '__main__':
