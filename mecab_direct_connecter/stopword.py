@@ -73,10 +73,12 @@ def def_file_reader(def_file_pos):
 
 class StopWordKiller(object):
     """Main Class of stopword removing."""
+
     def __init__(self, def_file=None, inline_def=None):
         additional_word = def_file_reader(def_file)
 
-        temp = ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + ONE_LETTERS_DOWN + OFTEN_DEFINED + PRE_DEFINED
+        temp = ZENKAKU_NUM + HANKAKU_NUM + ONE_LETTERS_UP + \
+            ONE_LETTERS_DOWN + OFTEN_DEFINED + PRE_DEFINED
         if inline_def is not None:
             temp += inline_def
         if additional_word is not None:
