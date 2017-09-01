@@ -44,28 +44,16 @@ DEFAULT_STOPWORD_DIC = "./stopword.list"
 DEFAULT_WAVING_DIC = "./waving.dic"
 
 
-def setup(mecab_method=None, cleanup=None, normalization=None, stopword=None, waving=None):
+def setup(cleanup=None, normalization=None, stopword=None, waving=None):
     """setup mecab direct connecter.
 
-    * Mecab parsing method.
     * word cleaning by mecab.
     * normalization processing.
     * stopword processing.
     * waving word processing.
     """
     setting = namedtuple(
-        "settings", ["mecab_method", "cleanup", "normalization", "stopword", "waving"])
-
-    if mecab_method is None:
-        setting.mecab_method = "original"
-    else:
-        setting.mecab_method = mecab_method
-
-    if setting.mecab_method in ["original", "word"]:
-        MECAB_LOGGER.debug(
-            "Plaese sepcify mecab parsing method by original or word, on this time setted up for original.")
-        setting.mecab_method = "original"
-    MECAB_LOGGER.info("mecab processing method: %s", mecab_method)
+        "settings", ["cleanup", "normalization", "stopword", "waving"])
 
     if cleanup is None:
         setting.cleanup = True
@@ -91,7 +79,7 @@ def setup(mecab_method=None, cleanup=None, normalization=None, stopword=None, wa
         setting.waving = waving
     MECAB_LOGGER.info("waving word filetering is: %s", setting.waving)
 
-    return setting
+    return setting(cleanup, normalization, stopword, waving)
 
 
 def setup_path(mecab_dict_path=None, stopword_dic_path=None, waving_dic_path=None):
@@ -141,8 +129,8 @@ def setup_path(mecab_dict_path=None, stopword_dic_path=None, waving_dic_path=Non
     return path_setting
 
 
-def morph(text: str, extract_parts=None, setting=None, path_setting=None):
-    """Do Natural Language Analysis obeying setting tuple.
+def morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=None):
+    """Do Natural Language Analysis obeying setting tuple.This is high class def.
 
     # Setting up options on default.
     >>> setting = setup(waving=False)
@@ -165,6 +153,9 @@ def morph(text: str, extract_parts=None, setting=None, path_setting=None):
         MECAB_LOGGER.debug("please give me setting path obj.")
         path_setting = setup_path()
 
+    if mode not in ["original", "word"]:
+        raise NameError("Plaese specify mode as original or word.")
+
     if isinstance(extract_parts, str):
         temp = []
         temp.append(extract_parts)
@@ -182,9 +173,9 @@ def morph(text: str, extract_parts=None, setting=None, path_setting=None):
         mecab_parser.unknown_word_buster_by_parts()
         mecab_parser.unknown_word_buster_by_readings()
 
-    if setting.mecab_method == "original":
+    if mode == "original":
         result = mecab_parser.extract_category_originalshape(extract_parts)
-    elif setting.mecab_method == "word":
+    elif mode == "word":
         result = mecab_parser.extracted_category_word(extract_parts)
 
     if setting.stopword:
