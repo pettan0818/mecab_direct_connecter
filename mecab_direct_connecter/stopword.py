@@ -13,7 +13,7 @@ import logging
 MECAB_LOGGER = logging.getLogger("stopword")
 _STDOUT_HANDLER = logging.StreamHandler()
 MECAB_LOGGER.addHandler(_STDOUT_HANDLER)
-MECAB_LOGGER.setLevel(logging.DEBUG)
+MECAB_LOGGER.setLevel(logging.WARNING)
 
 PRE_DEFINED = ['あそこ', 'あたり', 'あちら', 'あっち', 'あと', 'あな', 'あなた', 'あれ', 'いくつ', 'いつ', 'いま', 'いや', 'いろいろ',
                'うち', 'おおまか', 'おまえ', 'おれ', 'がい', 'かく', 'かたち', 'かやの', 'から', 'がら', 'きた', 'くせ', 'ここ', 'こっち',
