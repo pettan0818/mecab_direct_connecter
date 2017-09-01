@@ -56,28 +56,28 @@ def setup(cleanup=None, normalization=None, stopword=None, waving=None):
         "settings", ["cleanup", "normalization", "stopword", "waving"])
 
     if cleanup is None:
-        setting.cleanup = True
+        cleanup = True
     else:
-        setting.cleanup = cleanup
-    MECAB_LOGGER.info("cleanup of unknown word is: %s", setting.cleanup)
+        cleanup = cleanup
+    MECAB_LOGGER.info("cleanup of unknown word is: %s", cleanup)
 
     if normalization is None:
-        setting.normalization = True
+        normalization = True
     else:
-        setting.normalization = normalization
-    MECAB_LOGGER.info("normalization is: %s", setting.normalization)
+        normalization = normalization
+    MECAB_LOGGER.info("normalization is: %s", normalization)
 
     if stopword is None:
-        setting.stopword = True
+        stopword = True
     else:
-        setting.stopword = stopword
-    MECAB_LOGGER.info("stopword filtering is: %s", setting.stopword)
+        stopword = stopword
+    MECAB_LOGGER.info("stopword filtering is: %s", stopword)
 
     if waving is None:
-        setting.waving = False
+        waving = False
     else:
-        setting.waving = waving
-    MECAB_LOGGER.info("waving word filetering is: %s", setting.waving)
+        waving = waving
+    MECAB_LOGGER.info("waving word filetering is: %s", waving)
 
     return setting(cleanup, normalization, stopword, waving)
 
@@ -107,26 +107,26 @@ def setup_path(mecab_dict_path=None, stopword_dic_path=None, waving_dic_path=Non
         mecab_arg = "-d {0} -x 未知語,*,*,*,*,*,*,*,* --eos-format=".format(
             mecab_dict_path)
         if not check_dict_availability(mecab_arg):
-            path_setting.mecab_arg = mecab_arg
+            mecab_arg = mecab_arg
     else:  # path is not given.
         for mecab_arg in DEFAULT_DICT_PATH:  # Checking default dict path.
             if check_dict_availability(mecab_arg):
-                path_setting.mecab_arg = mecab_arg
+                mecab_arg = mecab_arg
                 break
 
             # raise RuntimeError("Mecab is not ready via DEFAULT_DICT_PATH and your given path, and FALLING BACK DICT")
 
     if stopword_dic_path:
-        path_setting.stopword_dic = stopword_dic_path
+        stopword_dic = stopword_dic_path
     else:
-        path_setting.stopword_dic = DEFAULT_STOPWORD_DIC
+        stopword_dic = DEFAULT_STOPWORD_DIC
 
     if waving_dic_path:
-        path_setting.waving_dic = waving_dic_path
+        waving_dic = waving_dic_path
     else:
-        path_setting.waving_dic = DEFAULT_WAVING_DIC
+        waving_dic = DEFAULT_WAVING_DIC
 
-    return path_setting
+    return path_setting(mecab_arg, stopword_dic, waving_dic)
 
 
 def morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=None):
