@@ -114,8 +114,6 @@ def setup_path(mecab_dict_path=None, stopword_dic_path=None, waving_dic_path=Non
                 mecab_arg = mecab_arg
                 break
 
-            # raise RuntimeError("Mecab is not ready via DEFAULT_DICT_PATH and your given path, and FALLING BACK DICT")
-
     if stopword_dic_path:
         stopword_dic = stopword_dic_path
     else:
