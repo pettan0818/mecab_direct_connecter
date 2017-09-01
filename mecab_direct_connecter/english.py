@@ -19,7 +19,13 @@ TOKENIZER = ToktokTokenizer().tokenize
 
 
 def english_tokenzier(text: str):
-    """return english tokenized list."""
+    """return english tokenized list.
+
+    >>> english_tokenzier("Hello World")
+    ['Hello', 'World']
+    >>> english_tokenzier("Keyboard Shortcuts Keyboard shortcuts are available for common actions and site navigation.")
+    ['Keyboard', 'Shortcuts', 'Keyboard', 'shortcuts', 'are', 'available', 'for', 'common', 'actions', 'and', 'site', 'navigation', '.']
+    """
     return TOKENIZER(text)
 
 
