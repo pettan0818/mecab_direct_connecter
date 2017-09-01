@@ -12,8 +12,8 @@
 # Usage
 #
 """
-import re
 import logging
+import re
 
 import MeCab
 
@@ -25,6 +25,7 @@ MECAB_LOGGER.setLevel(logging.DEBUG)
 
 class MecabMother(object):
     """Run mecab process including data."""
+
     def __init__(self, path_setting):
         """
         メソッドで活用するために、MeCabのTaggerを定義し、プロパティ化する。
