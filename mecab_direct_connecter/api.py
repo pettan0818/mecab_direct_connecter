@@ -132,15 +132,15 @@ def morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=N
 
     # Setting up options on default.
     >>> setting = setup(waving=False)
-    >>> morph("私はおなかが減っていますよ", path_setting=None,setting=setting)
+    >>> morph("私はおなかが減っていますよ", mode="original",  path_setting=None, setting=setting)
     ['は', 'おなか', '減る', 'て', 'いる', 'ます', 'よ']
-    >>> setting = setup(mecab_method="original", cleanup=True, normalization=True, stopword=False, waving=False)
-    >>> morph("私はおなかが減っていますよ", setting=setting)
+    >>> setting = setup(cleanup=True, normalization=True, stopword=False, waving=False)
+    >>> morph("私はおなかが減っていますよ", mode="original", setting=setting)
     ['私', 'は', 'おなか', 'が', '減る', 'て', 'いる', 'ます', 'よ']
-    >>> morph("私はおなかが減っていますよ", extract_parts="名詞", setting=setting)
+    >>> morph("私はおなかが減っていますよ", mode="original",  extract_parts="名詞", setting=setting)
     ['私', 'おなか']
-    >>> setting = setup(mecab_method="word", cleanup=False, normalization=True, stopword=False, waving=False)
-    >>> morph("私はおなかが減っていますよ", setting=setting)
+    >>> setting = setup(cleanup=False, normalization=True, stopword=False, waving=False)
+    >>> morph("私はおなかが減っていますよ", mode="original", setting=setting)
     ['私', 'は', 'おなか', 'が', '減る', 'て', 'いる', 'ます', 'よ']
     """
     # argument parsing.
