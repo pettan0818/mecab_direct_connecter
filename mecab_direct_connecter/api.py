@@ -127,20 +127,20 @@ def setup_path(mecab_dict_path=None, stopword_dic_path=None, waving_dic_path=Non
     return path_setting(mecab_arg, stopword_dic, waving_dic)
 
 
-def morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=None):
+def direct_morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=None):
     """Do Natural Language Analysis obeying setting tuple.This is high class def.
 
     # Setting up options on default.
     >>> setting = setup(waving=False)
-    >>> morph("私はおなかが減っていますよ", mode="original",  path_setting=None, setting=setting)
+    >>> direct_morph("私はおなかが減っていますよ", mode="original",  path_setting=None, setting=setting)
     ['は', 'おなか', '減る', 'て', 'いる', 'ます', 'よ']
     >>> setting = setup(cleanup=True, normalization=True, stopword=False, waving=False)
-    >>> morph("私はおなかが減っていますよ", mode="original", setting=setting)
+    >>> direct_morph("私はおなかが減っていますよ", mode="original", setting=setting)
     ['私', 'は', 'おなか', 'が', '減る', 'て', 'いる', 'ます', 'よ']
-    >>> morph("私はおなかが減っていますよ", mode="original",  extract_parts="名詞", setting=setting)
+    >>> direct_morph("私はおなかが減っていますよ", mode="original",  extract_parts="名詞", setting=setting)
     ['私', 'おなか']
     >>> setting = setup(cleanup=False, normalization=True, stopword=False, waving=False)
-    >>> morph("私はおなかが減っていますよ", mode="original", setting=setting)
+    >>> direct_morph("私はおなかが減っていますよ", mode="original", setting=setting)
     ['私', 'は', 'おなか', 'が', '減る', 'て', 'いる', 'ます', 'よ']
     """
     # argument parsing.
