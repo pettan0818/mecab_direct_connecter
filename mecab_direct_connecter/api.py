@@ -191,6 +191,8 @@ class MopheUnit():
 
     # DEFAULT_USAGE
     >>> unit = MopheUnit()
+    >>> unit.morph("ぽたぽた焼ってなんですか", mode="original", extract_parts=None)
+    ['ぽたぽた焼', 'ってな', 'です', 'か']
     """
 
     def __init__(self, setup_obj=None, setup_path_obj=None):
