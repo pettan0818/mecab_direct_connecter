@@ -145,10 +145,10 @@ def morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=N
     """
     # argument parsing.
     if setting is None:
-        MECAB_LOGGER.debug("please give me setting obj.")
+        MECAB_LOGGER.debug("[api] no given setup obj, use default.")
         setting = setup()
     if path_setting is None:
-        MECAB_LOGGER.debug("please give me setting path obj.")
+        MECAB_LOGGER.debug("[api] no given setup path obj, use default.")
         path_setting = setup_path()
 
     if mode not in ["original", "word"]:
