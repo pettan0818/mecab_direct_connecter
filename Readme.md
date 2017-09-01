@@ -8,12 +8,12 @@ This library is to call mecab lib with useful functions.
 * pandas
 
 # How to install
-```
+```shell
 pip install git+https://github.com/pettan0818/mecab_direct_connecter.git
 ```
 
 # EASY TUTORIAL
-```
+```python
 from mecab_direct_connecter import api
 
 # 最も簡単な操作方法
