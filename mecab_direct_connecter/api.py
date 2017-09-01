@@ -186,6 +186,48 @@ def morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=N
     return result
 
 
+class MopheUnit():
+    """
+
+    # DEFAULT_USAGE
+    >>> unit = MopheUnit()
+    """
+
+    def __init__(self, setup_obj=None, setup_path_obj=None):
+        """initialize mopher unit.
+
+        * setup objects are stored in property.
+        """
+        self.setup_obj = setup_obj
+        self.path_obj = setup_path_obj
+
+        if self.setup_obj is None:
+            self.setup_obj = setup()
+        if self.path_obj is None:
+            self.path_obj = setup_path()
+
+        if MECAB_LOGGER.level == logging.DEBUG:
+            self.check_setting()
+
+    def check_setting(self):
+        """Check this instance setting.
+        >>> unit = MopheUnit()
+        >>> unit.check_setting() # doctest: +ELLIPSIS
+        settings(...)
+        path(...)
+        """
+        pprint(self.setup_obj)
+        pprint(self.path_obj)
+
+    def morph(self, text: str):
+        """set morph text.
+
+        >>> unit = MopheUnit()
+        >>> unit.morph("テストです")
+        """
+        pass
+
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
