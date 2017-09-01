@@ -34,12 +34,12 @@ _STDOUT_HANDLER = logging.StreamHandler()
 MECAB_LOGGER.addHandler(_STDOUT_HANDLER)
 MECAB_LOGGER.setLevel(logging.WARNING)
 
+FALLBACK_DICT_ARG = "-x 未知語,*,*,*,*,*,*,*,* --eos-format="
 DEFAULT_DICT_PATH = [
     "-d /usr/local/Cellar/mecab/0.996/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
     "-d /usr/lib64/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
     "-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
-    "-d /usr/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
-    "-x 未知語,*,*,*,*,*,*,*,* --eos-format="]
+    "-d /usr/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format="] + [FALLBACK_DICT_ARG]
 DEFAULT_STOPWORD_DIC = "./stopword.list"
 DEFAULT_WAVING_DIC = "./waving.dic"
 
@@ -233,4 +233,4 @@ class MopheUnit():
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod(verbose=False)
+    doctest.testmod(verbose=True)
