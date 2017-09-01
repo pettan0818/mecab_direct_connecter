@@ -221,13 +221,14 @@ class MopheUnit():
         pprint(self.setup_obj)
         pprint(self.path_obj)
 
-    def morph(self, text: str):
+    def morph(self, text: str, mode=None, extract_parts=None):
         """set morph text.
 
         >>> unit = MopheUnit()
-        >>> unit.morph("テストです")
+        >>> unit.morph("テストです", mode="original", extract_parts=None)
+        ['テスト', 'です']
         """
-        pass
+        return direct_morph(text, mode, extract_parts, self.setup_obj, self.path_obj)
 
 
 if __name__ == '__main__':
