@@ -12,6 +12,41 @@
 # Usage
 #
 """
+import re
+from collections import namedtuple
+from typing import NamedTuple
+
+
+def lang_distingisher(text: str) -> NamedTuple:
+    """determine text part lang and split.
+
+    >>> lang_distingisher("この車は、日本では4WDと言われているが、その実態はFDである。")
+    ["この車は、日本では", "4WD", "と言われているが、その実態は", "FD", "である。"]
+    >>> lang_distingisher("4WDはいいぞ。(https://ja.wikipedia.org/wiki/%E5%9B%9B%E8%BC%AA%E9%A7%86%E5%8B%95)")
+    ["4WD", "はいいぞ。", (https://ja.wikipedia.org/wiki/%E5%9B%9B%E8%BC%AA%E9%A7%86%E5%8B%95)"]
+    """
+    lang_info = namedtuple("lang_info", ["lang", "raw_text"])
+
+    # XXX: Naive way.
+    url_filter = re.compile(r"https?://[\w/:%#\$&\?~\.=\+\-]+")
+    eng_finder = re.compile(r"[0-9A-Za-z_ :,./%()]+")
+    jpn_text = re.split(eng_finder, text)
+    print(jpn_text)
+    print([len(i) for i in jpn_text])
+
+    eng_pos = re.finditer(eng_finder, text)
+
+    url_pos = re.finditer(url_filter, text)
+
+    for i in eng_pos:
+        print(i.group())
+        print(i.end() - i.start())
+
+    for i in url_pos:
+        print(i.group())
+        print(i.end() - i.start())
+
+    # return lang_info(lang, raw_text)
 
 
 if __name__ == '__main__':
