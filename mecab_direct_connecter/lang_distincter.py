@@ -27,13 +27,11 @@ def lang_distingisher(text: str) -> NamedTuple:
     lang_info = NamedTuple("lang_info", [("lang", list), ("raw_text", list)])
 
     # XXX: Naive way.
-    url_filter = re.compile(r"https?://[\w/:%#\$&\?~\.=\+\-]+")
     eng_finder = re.compile(r"[0-9A-Za-z_ :,./%()]+")
-    jpn_text = re.split(eng_finder, text)
-    print(jpn_text)
-    print([len(i) for i in jpn_text])
+    # url_finder = re.compile(r"https?://[\w/:%#\$&\?~\.=\+\-]+")
 
     eng_pos = re.finditer(eng_finder, text)
+    # url_pos = re.finditer(url_finder, text)
 
     url_pos = re.finditer(url_filter, text)
 
