@@ -30,19 +30,35 @@ def lang_distingisher(text: str) -> NamedTuple:
     eng_finder = re.compile(r"[0-9A-Za-z_ :,./%()]+")
     # url_finder = re.compile(r"https?://[\w/:%#\$&\?~\.=\+\-]+")
 
+    # Find english/URL text by matching re obj.
     eng_pos = re.finditer(eng_finder, text)
     # url_pos = re.finditer(url_finder, text)
 
-    url_pos = re.finditer(url_filter, text)
+    # Scheme
+    # この問題の難しいところはsplitしてしまうと、英語部分が消えてしまうところにある
+    # 1. 英語抜きの日本語だけのリストを作る
+    # 2. 英語の場所を特定
+    # 3. 1.で作ったリストに特定した部位にインサート
+    # Find jpn text by spliting by English block.
+    jpn_text = re.split(eng_finder, text)
+    jpn_text_len = [len(i) for i in jpn_text]
+    print(jpn_text)
 
+    # 英語位置特定
+    eng_text = []
+    eng_start_pos = []
+    eng_len = []
     for i in eng_pos:
-        print(i.group())
-        print(i.end() - i.start())
+        eng_text.append(i.group())
+        eng_start_pos.append(i.start())
+        eng_len.append(i.end() - i.start())
 
-    for i in url_pos:
-        print(i.group())
-        print(i.end() - i.start())
+    # 英語をraw_textに反映する
+    print(jpn_text_len)
+    print(eng_text)
+    print(eng_start_pos)
 
+    # assert len(lang) == len(raw_text)
     # return lang_info(lang, raw_text)
 
 
