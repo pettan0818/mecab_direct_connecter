@@ -24,7 +24,7 @@ def lang_distingisher(text: str) -> NamedTuple:
     >>> lang_distingisher("4WDはいいぞ。(https://ja.wikipedia.org/wiki/%E5%9B%9B%E8%BC%AA%E9%A7%86%E5%8B%95)")
     ["4WD", "はいいぞ。", (https://ja.wikipedia.org/wiki/%E5%9B%9B%E8%BC%AA%E9%A7%86%E5%8B%95)"]
     """
-    lang_info = namedtuple("lang_info", ["lang", "raw_text"])
+    lang_info = NamedTuple("lang_info", [("lang", list), ("raw_text", list)])
 
     # XXX: Naive way.
     url_filter = re.compile(r"https?://[\w/:%#\$&\?~\.=\+\-]+")
