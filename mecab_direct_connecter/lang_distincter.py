@@ -13,7 +13,6 @@
 #
 """
 import re
-from collections import namedtuple
 from typing import NamedTuple
 
 
