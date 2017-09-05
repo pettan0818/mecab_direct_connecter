@@ -62,6 +62,18 @@ def lang_distingisher(text: str) -> NamedTuple:
     # return lang_info(lang, raw_text)
 
 
+def sum_list_like_fibo(target: list) -> list:
+    """Sum list like fibo or as below.
+
+    >>> sum_list_like_fibo([1, 2, 3, 4, 5])
+    [1, 3, 6, 10, 15]
+    >>> sum_list_like_fibo([9, 14, 4])
+    [9, 23, 27]
+    >>> sum_list_like_fibo([0, 5, 0])
+    [0, 5, 5]
+    """
+    pass
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
