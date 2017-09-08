@@ -71,8 +71,11 @@ def sum_list_like_fibo(target: list) -> list:
     [9, 23, 27]
     >>> sum_list_like_fibo([0, 5, 0])
     [0, 5, 5]
+    >>> sum_list_like_fibo([0, 0, 0])
+    [0, 0, 0]
     """
-    pass
+    return [sum(target[:i + 1]) for i in range(len(target))]
+
 
 if __name__ == '__main__':
     import doctest
