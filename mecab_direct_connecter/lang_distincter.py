@@ -51,6 +51,14 @@ def lang_distingisher(text: str) -> NamedTuple:
         eng_start_pos.append(i.start())
 
     # 英語をraw_textに反映する
+    raw_text_dirty = inject_eng_word(jpn_text, eng_start_pos, eng_text)
+    raw_text = [i for i in raw_text_dirty if not i == ""]
+
+    # 日本語/英語/URLなどをパースする
+    lang = ["J" if re.fullmatch(eng_finder, i)
+            is None else "E" for i in raw_text]
+    return lang_info(lang, raw_text)
+
 
 def inject_eng_word(jpn_text: list, eng_start_pos: list, eng_text: list) -> list:
     """ this is tester wrap to inject func.
