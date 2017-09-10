@@ -27,6 +27,7 @@ def lang_distingisher(text: str) -> NamedTuple:
     lang_info = NamedTuple("lang_info", [("lang", list), ("raw_text", list)])
 
     # XXX: Naive way.
+    # reuse for detecting lang.
     eng_finder = re.compile(r"[0-9A-Za-z_ :,./%()]+")
     # url_finder = re.compile(r"https?://[\w/:%#\$&\?~\.=\+\-]+")
 
@@ -41,25 +42,16 @@ def lang_distingisher(text: str) -> NamedTuple:
     # 3. 1.で作ったリストに特定した部位にインサート
     # Find jpn text by spliting by English block.
     jpn_text = re.split(eng_finder, text)
-    jpn_text_len = [len(i) for i in jpn_text]
-    print(jpn_text)
 
-    # 英語位置特定
+    # 英語位置特定(injectパラメータ生成
     eng_text = []
     eng_start_pos = []
-    eng_len = []
     for i in eng_pos:
         eng_text.append(i.group())
         eng_start_pos.append(i.start())
-        eng_len.append(i.end() - i.start())
 
     # 英語をraw_textに反映する
-    print(jpn_text_len)
-    print(eng_text)
-    print(eng_start_pos)
 
-    # assert len(lang) == len(raw_text)
-    # return lang_info(lang, raw_text)
 
 
 def sum_list_like_fibo(target: list) -> list:
