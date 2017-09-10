@@ -16,7 +16,11 @@ addons:
         - mecab-ipadic-utf8
 install:
     - pip install git+https://github.com/pettan0818/mecab_direct_connecter
+    - pip install nltk
 script:
     - python -m doctest ./mecab_direct_connecter/stopword.py
     - python -m doctest ./mecab_direct_connecter/api.py
     - python -m doctest ./mecab_direct_connecter/morphing.py
+    - python -m doctest ./mecab_direct_connecter/english.py
+    - python -m doctest ./mecab_direct_connecter/lang_distincter.py
+
