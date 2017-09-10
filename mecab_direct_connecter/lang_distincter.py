@@ -52,6 +52,32 @@ def lang_distingisher(text: str) -> NamedTuple:
 
     # 英語をraw_textに反映する
 
+def inject_eng_word(jpn_text: list, eng_start_pos: list, eng_text: list) -> list:
+    """ this is tester wrap to inject func.
+    >>> inject_eng_word(['この車は、日本では', 'と言われているが、その実態は', 'である。'], [9, 26], ['4WD', 'FD'])
+    ['この車は、日本では', '4WD', 'と言われているが、その実態は', 'FD', 'である。']
+    """
+    def inject(latest_jpn_text: list, latest_eng_start_pos: list, latest_eng_text: list):
+        """Actually inject word."""
+        # Return if eng_text is empty.
+        if not latest_eng_text:  # list which len is 0 => False
+            return latest_jpn_text
+
+        # must each time re-gen.
+        jpn_text_len = [len(i) for i in latest_jpn_text]
+        # make a list which contains splited summed chars.
+        summed_jpn_text = sum_list_like_fibo(jpn_text_len)
+
+        target_pos: int = latest_eng_start_pos.pop(0)
+        target_eng_text: str = latest_eng_text.pop(0)
+        inject_pos = summed_jpn_text.index(target_pos)
+
+        latest_jpn_text.insert(inject_pos + 1, target_eng_text)
+
+        # 再帰的にデータを更新
+        return inject(latest_jpn_text, latest_eng_start_pos, latest_eng_text)
+
+    return inject(jpn_text, eng_start_pos, eng_text)
 
 
 def sum_list_like_fibo(target: list) -> list:
