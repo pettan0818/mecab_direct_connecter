@@ -20,9 +20,9 @@ def lang_distingisher(text: str) -> NamedTuple:
     """determine text part lang and split.
 
     >>> lang_distingisher("この車は、日本では4WDと言われているが、その実態はFDである。")
-    ["この車は、日本では", "4WD", "と言われているが、その実態は", "FD", "である。"]
+    lang_info(lang=['J', 'E', 'J', 'E', 'J'], raw_text=['この車は、日本では', '4WD', 'と言われているが、その実態は', 'FD', 'である。'])
     >>> lang_distingisher("4WDはいいぞ。(https://ja.wikipedia.org/wiki/%E5%9B%9B%E8%BC%AA%E9%A7%86%E5%8B%95)")
-    ["4WD", "はいいぞ。", (https://ja.wikipedia.org/wiki/%E5%9B%9B%E8%BC%AA%E9%A7%86%E5%8B%95)"]
+    lang_info(lang=['E', 'J', 'E'], raw_text=['4WD', 'はいいぞ。', '(https://ja.wikipedia.org/wiki/%E5%9B%9B%E8%BC%AA%E9%A7%86%E5%8B%95)'])
     """
     lang_info = NamedTuple("lang_info", [("lang", list), ("raw_text", list)])
 
