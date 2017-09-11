@@ -231,7 +231,7 @@ class MopheUnit():
         >>> unit.morph("テストです", mode="original", extract_parts=None)
         ['テスト', 'です']
         >>> unit.morph("This is a penとかいうひどい表現はEnglandでは使いません。", mode="word", extract_parts=None)
-
+        ['This', 'is', 'a', 'pen', 'とかいう', 'ひどい', '表現', 'は', 'England', 'では', '使い', 'ませ', '。']
         """
         lang_parsed = lang_parser(text)
         result = []

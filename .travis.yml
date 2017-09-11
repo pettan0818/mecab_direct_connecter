@@ -22,5 +22,4 @@ script:
     - python -m doctest ./mecab_direct_connecter/api.py
     - python -m doctest ./mecab_direct_connecter/morphing.py
     - python -m doctest ./mecab_direct_connecter/english.py
-    - python -m doctest ./mecab_direct_connecter/lang_distincter.py
-
+    - python -m doctest ./mecab_direct_connecter/language.py
