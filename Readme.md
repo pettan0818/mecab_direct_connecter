@@ -38,4 +38,6 @@ unit = api.MorphUnit(setting_obj, path_obj)
 設定変更しない場合は、NoneでOK。
 あとは、この設定を保持したunitでmorphすればOK.
 unit.morph("テキスト", mode="original", extract_parts=None)
+この状態で英語・日本語をパースして処理しています。
+英語はnltkのtokenizer処理可能です。
 ```
