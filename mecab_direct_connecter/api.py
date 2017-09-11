@@ -12,83 +12,77 @@
 # Usage
 #
 """
-from collections import namedtuple
 import logging
+from collections import namedtuple
+from itertools import chain
+from pprint import pprint
 
-import neologdn
 import MeCab
 
-try:  # for importing in library scenario.
-    from .morphing import MecabMother
-    from .stopword import StopWordKiller
-    from .waving import waving_words_filter
-except ImportError:  # for importing test or lib folder scenario.
+import neologdn
+
+try:  # library scenario, __init__ will import requried libs.
+    TEMP_TESTER = MecabMother()  # ASAP GC
+    del TEMP_TESTER
+except NameError:  # for importing test or lib folder scenario.
     from morphing import MecabMother
     from stopword import StopWordKiller
     from waving import waving_words_filter
+    from language import lang_parser
+    from english import english_tokenzier
 
 
 MECAB_LOGGER = logging.getLogger("api")
 _STDOUT_HANDLER = logging.StreamHandler()
 MECAB_LOGGER.addHandler(_STDOUT_HANDLER)
-MECAB_LOGGER.setLevel(logging.DEBUG)
+MECAB_LOGGER.setLevel(logging.WARNING)
 
+FALLBACK_DICT_ARG = "-x 未知語,*,*,*,*,*,*,*,* --eos-format="
 DEFAULT_DICT_PATH = [
     "-d /usr/local/Cellar/mecab/0.996/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
     "-d /usr/lib64/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
     "-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
-    "-d /usr/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format=",
-    "-x 未知語,*,*,*,*,*,*,*,* --eos-format="]
+    "-d /usr/lib/mecab/dic/mecab-ipadic-neologd -x 未知語,*,*,*,*,*,*,*,* --eos-format="] + [FALLBACK_DICT_ARG]
 DEFAULT_STOPWORD_DIC = "./stopword.list"
 DEFAULT_WAVING_DIC = "./waving.dic"
 
 
-def setup(mecab_method=None, cleanup=None, normalization=None, stopword=None, waving=None):
+def setup(cleanup=None, normalization=None, stopword=None, waving=None):
     """setup mecab direct connecter.
 
-    * Mecab parsing method.
     * word cleaning by mecab.
     * normalization processing.
     * stopword processing.
     * waving word processing.
     """
-    setting = namedtuple("settings", ["mecab_method", "cleanup", "normalization", "stopword", "waving"])
-
-    if mecab_method is None:
-        setting.mecab_method = "original"
-    else:
-        setting.mecab_method = mecab_method
-
-    if setting.mecab_method in ["original", "word"]:
-        MECAB_LOGGER.warning("Plaese sepcify mecab parsing method by original or word, on this time setted up for original.")
-        setting.mecab_method = "original"
-    MECAB_LOGGER.info("mecab processing method: %s", mecab_method)
+    setting = namedtuple(
+        "settings", ["cleanup", "normalization", "stopword", "waving"])
 
     if cleanup is None:
-        setting.cleanup = True
+        cleanup = True
     else:
-        setting.cleanup = cleanup
-    MECAB_LOGGER.info("cleanup of unknown word is: %s", setting.cleanup)
+        cleanup = cleanup
+    MECAB_LOGGER.info("cleanup of unknown word is: %s", cleanup)
 
     if normalization is None:
-        setting.normalization = True
+        normalization = True
     else:
-        setting.normalization = normalization
-    MECAB_LOGGER.info("normalization is: %s", setting.normalization)
+        normalization = normalization
+    MECAB_LOGGER.info("normalization is: %s", normalization)
 
     if stopword is None:
-        setting.stopword = True
+        stopword = True
     else:
-        setting.stopword = stopword
-    MECAB_LOGGER.info("stopword filtering is: %s", setting.stopword)
+        stopword = stopword
+    MECAB_LOGGER.info("stopword filtering is: %s", stopword)
 
     if waving is None:
-        setting.waving = True
+        waving = False
     else:
-        setting.waving = waving
-    MECAB_LOGGER.info("waving word filetering is: %s", setting.waving)
+        waving = waving
+    MECAB_LOGGER.info("waving word filetering is: %s", waving)
 
-    return setting
+    return setting(cleanup, normalization, stopword, waving)
 
 
 def setup_path(mecab_dict_path=None, stopword_dic_path=None, waving_dic_path=None):
@@ -109,56 +103,59 @@ def setup_path(mecab_dict_path=None, stopword_dic_path=None, waving_dic_path=Non
 
         return True
 
-    path_setting = namedtuple("path", ["mecab_arg", "stopword_dic", "waving_dic"])
+    path_setting = namedtuple(
+        "path", ["mecab_arg", "stopword_dic", "waving_dic"])
 
     if mecab_dict_path:  # When mecab Path is given.
-        mecab_arg = "-d {0} -x 未知語,*,*,*,*,*,*,*,* --eos-format=".format(mecab_dict_path)
+        mecab_arg = "-d {0} -x 未知語,*,*,*,*,*,*,*,* --eos-format=".format(
+            mecab_dict_path)
         if not check_dict_availability(mecab_arg):
-            path_setting.mecab_arg = mecab_arg
+            mecab_arg = mecab_arg
     else:  # path is not given.
         for mecab_arg in DEFAULT_DICT_PATH:  # Checking default dict path.
             if check_dict_availability(mecab_arg):
-                path_setting.mecab_arg = mecab_arg
+                mecab_arg = mecab_arg
                 break
 
-            # raise RuntimeError("Mecab is not ready via DEFAULT_DICT_PATH and your given path, and FALLING BACK DICT")
-
     if stopword_dic_path:
-        path_setting.stopword_dic = stopword_dic_path
+        stopword_dic = stopword_dic_path
     else:
-        path_setting.stopword_dic = DEFAULT_STOPWORD_DIC
+        stopword_dic = DEFAULT_STOPWORD_DIC
 
     if waving_dic_path:
-        path_setting.waving_dic = waving_dic_path
+        waving_dic = waving_dic_path
     else:
-        path_setting.waving_dic = DEFAULT_WAVING_DIC
+        waving_dic = DEFAULT_WAVING_DIC
 
-    return path_setting
+    return path_setting(mecab_arg, stopword_dic, waving_dic)
 
 
-def morph(text: str, extract_parts=None, setting=None, path_setting=None):
-    """Do Natural Language Analysis obeying setting tuple.
+def jpn_morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=None):
+    """Do Natural Language Analysis obeying setting tuple.This is high class def.
 
     # Setting up options on default.
     >>> setting = setup(waving=False)
-    >>> morph("私はおなかが減っていますよ", path_setting=None,setting=setting)
+    >>> jpn_morph("私はおなかが減っていますよ", mode="original",  path_setting=None, setting=setting)
     ['は', 'おなか', '減る', 'て', 'いる', 'ます', 'よ']
-    >>> setting = setup(mecab_method="original", cleanup=True, normalization=True, stopword=False, waving=False)
-    >>> morph("私はおなかが減っていますよ", setting=setting)
+    >>> setting = setup(cleanup=True, normalization=True, stopword=False, waving=False)
+    >>> jpn_morph("私はおなかが減っていますよ", mode="original", setting=setting)
     ['私', 'は', 'おなか', 'が', '減る', 'て', 'いる', 'ます', 'よ']
-    >>> morph("私はおなかが減っていますよ", extract_parts="名詞", setting=setting)
+    >>> jpn_morph("私はおなかが減っていますよ", mode="original",  extract_parts="名詞", setting=setting)
     ['私', 'おなか']
-    >>> setting = setup(mecab_method="word", cleanup=False, normalization=True, stopword=False, waving=False)
-    >>> morph("私はおなかが減っていますよ", setting=setting)
+    >>> setting = setup(cleanup=False, normalization=True, stopword=False, waving=False)
+    >>> jpn_morph("私はおなかが減っていますよ", mode="original", setting=setting)
     ['私', 'は', 'おなか', 'が', '減る', 'て', 'いる', 'ます', 'よ']
     """
     # argument parsing.
     if setting is None:
-        MECAB_LOGGER.warning("please give me setting obj.")
+        MECAB_LOGGER.debug("[api] no given setup obj, use default.")
         setting = setup()
     if path_setting is None:
-        MECAB_LOGGER.warning("please give me setting path obj.")
+        MECAB_LOGGER.debug("[api] no given setup path obj, use default.")
         path_setting = setup_path()
+
+    if mode not in ["original", "word"]:
+        raise NameError("Plaese specify mode as original or word.")
 
     if isinstance(extract_parts, str):
         temp = []
@@ -177,9 +174,9 @@ def morph(text: str, extract_parts=None, setting=None, path_setting=None):
         mecab_parser.unknown_word_buster_by_parts()
         mecab_parser.unknown_word_buster_by_readings()
 
-    if setting.mecab_method == "original":
+    if mode == "original":
         result = mecab_parser.extract_category_originalshape(extract_parts)
-    elif setting.mecab_method == "word":
+    elif mode == "word":
         result = mecab_parser.extracted_category_word(extract_parts)
 
     if setting.stopword:
@@ -192,6 +189,67 @@ def morph(text: str, extract_parts=None, setting=None, path_setting=None):
     return result
 
 
+class MopheUnit():
+    """Eng/JPN lang morph unit.
+
+    # DEFAULT_USAGE
+    >>> unit = MopheUnit()
+    >>> unit.morph("私はおなかが減っていますよ。", mode="original", extract_parts=None)
+    ['は', 'おなか', '減る', 'て', 'いる', 'ます', 'よ', '。']
+    """
+
+    def __init__(self, setup_obj=None, setup_path_obj=None):
+        """initialize mopher unit.
+
+        * setup objects are stored in property.
+        """
+        self.setup_obj = setup_obj
+        self.path_obj = setup_path_obj
+
+        if self.setup_obj is None:
+            self.setup_obj = setup()
+        if self.path_obj is None:
+            self.path_obj = setup_path()
+
+        if MECAB_LOGGER.level == logging.DEBUG:
+            self.check_setting()
+
+    def check_setting(self):
+        """Check this instance setting.
+        >>> unit = MopheUnit()
+        >>> unit.check_setting() # doctest: +ELLIPSIS
+        settings(...)
+        path(...)
+        """
+        pprint(self.setup_obj)
+        pprint(self.path_obj)
+
+    def morph(self, text: str, mode=None, extract_parts=None):
+        """set morph text.
+
+        >>> unit = MopheUnit()
+        >>> unit.morph("テストです", mode="original", extract_parts=None)
+        ['テスト', 'です']
+        >>> unit.morph("This is a penとかいうひどい表現はEnglandでは使いません。", mode="word", extract_parts=None)
+        ['This', 'is', 'a', 'pen', 'とかいう', 'ひどい', '表現', 'は', 'England', 'では', '使い', 'ませ', '。']
+        """
+        lang_parsed = lang_parser(text)
+        result = []
+
+        for lang, raw_text in zip(lang_parsed.lang, lang_parsed.raw_text):
+            if lang == "J":
+                temp = jpn_morph(raw_text, mode, extract_parts,
+                                 self.setup_obj, self.path_obj)
+                result.append(temp)
+            elif lang == "E":
+                temp = english_tokenzier(raw_text)
+                result.append(temp)
+            else:
+                raise NotImplementedError("JPN/ENG other is not implemented.")
+
+        return list(chain.from_iterable(result))
+
+
 if __name__ == '__main__':
     import doctest
-    doctest.testmod()
+    doctest.testmod(verbose=False)

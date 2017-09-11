@@ -2,7 +2,7 @@ language: python
 sudo: required
 dist: trusty
 python:
-    - 3.6.1
+    - 3.6.2
 addons:
   apt:
     sources:
@@ -16,7 +16,10 @@ addons:
         - mecab-ipadic-utf8
 install:
     - pip install git+https://github.com/pettan0818/mecab_direct_connecter
+    - pip install nltk
 script:
     - python -m doctest ./mecab_direct_connecter/stopword.py
     - python -m doctest ./mecab_direct_connecter/api.py
     - python -m doctest ./mecab_direct_connecter/morphing.py
+    - python -m doctest ./mecab_direct_connecter/english.py
+    - python -m doctest ./mecab_direct_connecter/language.py

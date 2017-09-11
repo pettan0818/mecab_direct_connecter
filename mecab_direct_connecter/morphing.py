@@ -12,8 +12,8 @@
 # Usage
 #
 """
-import re
 import logging
+import re
 
 import MeCab
 
@@ -25,6 +25,7 @@ MECAB_LOGGER.setLevel(logging.DEBUG)
 
 class MecabMother(object):
     """Run mecab process including data."""
+
     def __init__(self, path_setting):
         """
         メソッドで活用するために、MeCabのTaggerを定義し、プロパティ化する。
@@ -39,11 +40,6 @@ class MecabMother(object):
         self.result = str()  # This will replaced by mecab result."
         self.words = []
         self.parts = []
-        # self.parts_detail_1 = []
-        # self.parts_detail_2 = []
-        # self.parts_detail_3 = []
-        # self.con_1 = []
-        # self.con_2 = []
         self.original_shape = []
         self.readings = []
         self.pronunciations = []
@@ -74,11 +70,6 @@ class MecabMother(object):
         # 表層形\t品詞,品詞細分類1,品詞細分類2,品詞細分類3,活用形,活用型,原形,読み,発音
         self.words = [x[0] for x in self.result]
         self.parts = [x[1] for x in self.result]
-        # self.parts_detail_1 = [x[2] for x in self.result]
-        # self.parts_detail_2 = [x[3] for x in self.result]
-        # self.parts_detail_3 = [x[4] for x in self.result]
-        # self.con_1 = [x[5] for x in self.result]
-        # self.con_2 = [x[6] for x in self.result]
         self.original_shape = [x[7] for x in self.result]
         self.readings = [x[8] for x in self.result]
         self.pronunciations = [x[9] for x in self.result]
