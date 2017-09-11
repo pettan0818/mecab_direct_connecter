@@ -28,6 +28,7 @@ except NameError:  # for importing test or lib folder scenario.
     from stopword import StopWordKiller
     from waving import waving_words_filter
 
+from language import lang_parser
 
 MECAB_LOGGER = logging.getLogger("api")
 _STDOUT_HANDLER = logging.StreamHandler()
@@ -187,7 +188,7 @@ def direct_morph(text: str, mode=None, extract_parts=None, setting=None, path_se
 
 
 class MopheUnit():
-    """
+    """Eng/JPN lang morph unit.
 
     # DEFAULT_USAGE
     >>> unit = MopheUnit()
@@ -228,7 +229,9 @@ class MopheUnit():
         >>> unit.morph("テストです", mode="original", extract_parts=None)
         ['テスト', 'です']
         """
-        return direct_morph(text, mode, extract_parts, self.setup_obj, self.path_obj)
+        lang_parsed = lang_parser(text)
+
+        return jpn_morph(text, mode, extract_parts, self.setup_obj, self.path_obj)
 
 
 if __name__ == '__main__':
