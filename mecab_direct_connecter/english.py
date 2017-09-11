@@ -15,8 +15,6 @@
 from nltk.tokenize import \
     ToktokTokenizer  # faster and more accuracy tokenizer.
 
-TOKENIZER = ToktokTokenizer().tokenize
-
 
 def english_tokenzier(text: str):
     """return english tokenized list.
@@ -26,6 +24,7 @@ def english_tokenzier(text: str):
     >>> english_tokenzier("Keyboard Shortcuts Keyboard shortcuts are available for common actions and site navigation.")
     ['Keyboard', 'Shortcuts', 'Keyboard', 'shortcuts', 'are', 'available', 'for', 'common', 'actions', 'and', 'site', 'navigation', '.']
     """
+    TOKENIZER = ToktokTokenizer().tokenize
     return TOKENIZER(text)
 
 
