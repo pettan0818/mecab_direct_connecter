@@ -14,6 +14,7 @@
 """
 import logging
 from collections import namedtuple
+from itertools import chain
 from pprint import pprint
 
 import MeCab
@@ -27,8 +28,9 @@ except NameError:  # for importing test or lib folder scenario.
     from morphing import MecabMother
     from stopword import StopWordKiller
     from waving import waving_words_filter
+    from language import lang_parser
+    from english import english_tokenzier
 
-from language import lang_parser
 
 MECAB_LOGGER = logging.getLogger("api")
 _STDOUT_HANDLER = logging.StreamHandler()
@@ -128,20 +130,20 @@ def setup_path(mecab_dict_path=None, stopword_dic_path=None, waving_dic_path=Non
     return path_setting(mecab_arg, stopword_dic, waving_dic)
 
 
-def direct_morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=None):
+def jpn_morph(text: str, mode=None, extract_parts=None, setting=None, path_setting=None):
     """Do Natural Language Analysis obeying setting tuple.This is high class def.
 
     # Setting up options on default.
     >>> setting = setup(waving=False)
-    >>> direct_morph("私はおなかが減っていますよ", mode="original",  path_setting=None, setting=setting)
+    >>> jpn_morph("私はおなかが減っていますよ", mode="original",  path_setting=None, setting=setting)
     ['は', 'おなか', '減る', 'て', 'いる', 'ます', 'よ']
     >>> setting = setup(cleanup=True, normalization=True, stopword=False, waving=False)
-    >>> direct_morph("私はおなかが減っていますよ", mode="original", setting=setting)
+    >>> jpn_morph("私はおなかが減っていますよ", mode="original", setting=setting)
     ['私', 'は', 'おなか', 'が', '減る', 'て', 'いる', 'ます', 'よ']
-    >>> direct_morph("私はおなかが減っていますよ", mode="original",  extract_parts="名詞", setting=setting)
+    >>> jpn_morph("私はおなかが減っていますよ", mode="original",  extract_parts="名詞", setting=setting)
     ['私', 'おなか']
     >>> setting = setup(cleanup=False, normalization=True, stopword=False, waving=False)
-    >>> direct_morph("私はおなかが減っていますよ", mode="original", setting=setting)
+    >>> jpn_morph("私はおなかが減っていますよ", mode="original", setting=setting)
     ['私', 'は', 'おなか', 'が', '減る', 'て', 'いる', 'ます', 'よ']
     """
     # argument parsing.
@@ -228,12 +230,26 @@ class MopheUnit():
         >>> unit = MopheUnit()
         >>> unit.morph("テストです", mode="original", extract_parts=None)
         ['テスト', 'です']
+        >>> unit.morph("This is a penとかいうひどい表現はEnglandでは使いません。", mode="word", extract_parts=None)
+
         """
         lang_parsed = lang_parser(text)
+        result = []
 
-        return jpn_morph(text, mode, extract_parts, self.setup_obj, self.path_obj)
+        for lang, raw_text in zip(lang_parsed.lang, lang_parsed.raw_text):
+            if lang == "J":
+                temp = jpn_morph(raw_text, mode, extract_parts,
+                                 self.setup_obj, self.path_obj)
+                result.append(temp)
+            elif lang == "E":
+                temp = english_tokenzier(raw_text)
+                result.append(temp)
+            else:
+                raise NotImplementedError("JPN/ENG other is not implemented.")
+
+        return list(chain.from_iterable(result))
 
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod(verbose=True)
+    doctest.testmod(verbose=False)
