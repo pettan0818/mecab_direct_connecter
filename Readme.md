@@ -4,6 +4,8 @@
 This library is to call mecab lib with useful functions.
 
 # Requirements
+* python 3.6~
+Variable type hinting.
 * neologdn
 * mecab (On system)
 * mecab-python3
