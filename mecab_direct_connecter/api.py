@@ -22,14 +22,17 @@ import MeCab
 import neologdn
 
 try:  # library scenario, __init__ will import requried libs.
-    TEMP_TESTER = MecabMother()  # ASAP GC
-    del TEMP_TESTER
-except NameError:  # for importing test or lib folder scenario.
     from morphing import MecabMother
     from stopword import StopWordKiller
     from waving import waving_words_filter
     from language import lang_parser
     from english import english_tokenzier
+except NameError:  # for importing test or lib folder scenario.
+    from .morphing import MecabMother
+    from .stopword import StopWordKiller
+    from .waving import waving_words_filter
+    from .language import lang_parser
+    from .english import english_tokenzier
 
 
 MECAB_LOGGER = logging.getLogger("api")
