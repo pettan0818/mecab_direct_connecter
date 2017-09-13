@@ -12,6 +12,5 @@ setup(
     install_requires=[
         "mecab-python3",
         "neologdn",
-        "pandas"
     ]
 )
