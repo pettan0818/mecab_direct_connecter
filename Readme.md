@@ -1,3 +1,5 @@
+# Mecab Connecter with useful NL pre-process.
+[![Build Status](https://travis-ci.org/pettan0818/mecab_direct_connecter.svg?branch=api_rearrange)](https://travis-ci.org/pettan0818/mecab_direct_connecter)
 # Purpose
 This library is to call mecab lib with useful functions.
 
