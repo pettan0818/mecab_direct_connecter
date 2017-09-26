@@ -12,8 +12,10 @@
 # Usage
 #
 """
+from nltk.stem.snowball import EnglishStemmer
 from nltk.tokenize import \
     ToktokTokenizer  # faster and more accuracy tokenizer.
+from nltk.corpus import stopwords
 
 
 def english_tokenzier(text: str):
@@ -38,10 +40,21 @@ def english_normalizer(text: str):
     pass
 
 
-def stopword_filter(text: str):
+
+def stopword_filter(tokenized_text: list):
     """英語表現用のstopwordフィルター
 
     NLTK付属のstopword Dictを利用する。
+    >>> stopword_filter(["This", "is", "special", "apple", "."])
+    ['special', 'apple', '.']
+    """
+    stopword_set = set(stopwords.words("english"))
+
+    target_text = [word.lower() for word in tokenized_text]
+
+    return [word for word in target_text if word not in stopword_set]
+
+
     """
     pass
 
