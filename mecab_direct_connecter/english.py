@@ -59,6 +59,11 @@ def stopword_filter(tokenized_text: list):
     return [word for word in target_text if word not in stopword_set]
 
 
+def pos_filtering(tokenized_text: list, filter_pos: list):
+    """品詞フィルター powered by TreeTagger
+
+    TreeTaggerをsubprocessか何かで呼んで、品詞情報を取得。
+    品質情報によるフィルターを提供する。
     """
     pass
 
