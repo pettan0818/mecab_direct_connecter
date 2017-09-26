@@ -30,14 +30,18 @@ def english_tokenzier(text: str):
     return tokenizer(text)
 
 
-def english_normalizer(text: str):
+def english_normalizer(tokenized_text: str):
     """英語表現の正規化
 
     * 以下の準備のための全ワードの小文字化処理
     * 語幹化
     * 見出し語化
     """
-    pass
+    target_text = [word.lower() for word in tokenized_text]
+
+    # 語幹化(活用の排除) stemmer
+
+    # 見出し語化(sとかingとか状況によって取り去る) lemmatize
 
 
 
