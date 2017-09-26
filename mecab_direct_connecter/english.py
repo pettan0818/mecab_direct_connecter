@@ -24,8 +24,26 @@ def english_tokenzier(text: str):
     >>> english_tokenzier("Keyboard Shortcuts Keyboard shortcuts are available for common actions and site navigation.")
     ['Keyboard', 'Shortcuts', 'Keyboard', 'shortcuts', 'are', 'available', 'for', 'common', 'actions', 'and', 'site', 'navigation', '.']
     """
-    TOKENIZER = ToktokTokenizer().tokenize
-    return TOKENIZER(text)
+    tokenizer = ToktokTokenizer().tokenize
+    return tokenizer(text)
+
+
+def english_normalizer(text: str):
+    """英語表現の正規化
+
+    * 以下の準備のための全ワードの小文字化処理
+    * 語幹化
+    * 見出し語化
+    """
+    pass
+
+
+def stopword_filter(text: str):
+    """英語表現用のstopwordフィルター
+
+    NLTK付属のstopword Dictを利用する。
+    """
+    pass
 
 
 if __name__ == '__main__':
