@@ -157,6 +157,10 @@ def jpn_morph(text: str, mode=None, extract_parts=None, setting=None, path_setti
         MECAB_LOGGER.debug("[api] no given setup path obj, use default.")
         path_setting = setup_path()
 
+    if mode is None:
+        mode = "original"
+        MECAB_LOGGER.debug("[api] mode is not specified, so set as original")
+
     if mode not in ["original", "word"]:
         raise NameError("Plaese specify mode as original or word.")
 
