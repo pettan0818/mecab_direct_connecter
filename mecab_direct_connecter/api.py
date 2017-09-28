@@ -192,17 +192,17 @@ def jpn_morph(text: str, mode=None, extract_parts=None, setting=None, path_setti
     return result
 
 
-class MopheUnit():
+class MorphUnit():
     """Eng/JPN lang morph unit.
 
     # DEFAULT_USAGE
-    >>> unit = MopheUnit()
+    >>> unit = MorphUnit()
     >>> unit.morph("私はおなかが減っていますよ。", mode="original", extract_parts=None)
     ['は', 'おなか', '減る', 'て', 'いる', 'ます', 'よ', '。']
     """
 
     def __init__(self, setup_obj=None, setup_path_obj=None):
-        """initialize mopher unit.
+        """initialize morpher unit.
 
         * setup objects are stored in property.
         """
@@ -219,7 +219,7 @@ class MopheUnit():
 
     def check_setting(self):
         """Check this instance setting.
-        >>> unit = MopheUnit()
+        >>> unit = MorphUnit()
         >>> unit.check_setting() # doctest: +ELLIPSIS
         settings(...)
         path(...)
@@ -230,7 +230,7 @@ class MopheUnit():
     def morph(self, text: str, mode=None, extract_parts=None):
         """set morph text.
 
-        >>> unit = MopheUnit()
+        >>> unit = MorphUnit()
         >>> unit.morph("テストです", mode="original", extract_parts=None)
         ['テスト', 'です']
         >>> unit.morph("This is a penとかいうひどい表現はEnglandでは使いません。", mode="word", extract_parts=None)
