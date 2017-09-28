@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .api import MopheUnit, setup, setup_path, jpn_morph
+from .api import MorphUnit, jpn_morph, setup, setup_path
 from .language import lang_parser
 from .morphing import MecabMother
 from .stopword import StopWordKiller
