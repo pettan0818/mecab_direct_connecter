@@ -12,10 +12,10 @@
 # Usage
 #
 """
+from nltk.corpus import stopwords
 from nltk.stem.snowball import EnglishStemmer
 from nltk.tokenize import \
     ToktokTokenizer  # faster and more accuracy tokenizer.
-from nltk.corpus import stopwords
 
 
 def english_tokenzier(text: str):
@@ -30,19 +30,20 @@ def english_tokenzier(text: str):
     return tokenizer(text)
 
 
-def english_normalizer(tokenized_text: str):
+def english_normalizer(tokenized_text: str, stopword_filter: bool=True):
     """英語表現の正規化
 
     * 以下の準備のための全ワードの小文字化処理
     * 語幹化
     * 見出し語化
     """
+    # 正規化(語幹化・見出し語化)の準備のための小文字化
     target_text = [word.lower() for word in tokenized_text]
 
     # 語幹化(活用の排除) stemmer
 
     # 見出し語化(sとかingとか状況によって取り去る) lemmatize
-
+    return None
 
 
 def stopword_filter(tokenized_text: list):
